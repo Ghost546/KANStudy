@@ -1,5 +1,0 @@
-package Kotlin
-
-class TestPractice {
-
-}
