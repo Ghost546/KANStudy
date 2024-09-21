@@ -1,0 +1,5 @@
+package Kotlin
+
+class TestPractice {
+
+}

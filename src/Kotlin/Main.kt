@@ -1,16 +1,52 @@
 package Kotlin
 
+
+import java.util.Scanner
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+    val scanner = Scanner(System.`in`)
+    var resultGrant: Double
+    var baseGrant = 1000.0
+    var marker = false
+
+    print("Средний бал: ")
+    val averageGrade = scanner.nextDouble()
+    println()
+
+    if (averageGrade>=5.0) {
+        print("Учавстует ли студент в общественной жизни(true/false): ")
+        marker = scanner.nextBoolean()
+        println()
     }
+
+    if(averageGrade>=8.0 && marker == false) {
+        resultGrant = baseGrant*1.25
+        showResultGrant(resultGrant)
+    } else {
+        if (averageGrade>=8.0 && marker == true) {
+            resultGrant = baseGrant*1.40
+            showResultGrant(resultGrant)
+        } else {
+            if (averageGrade>=5.0 && marker == true) {
+                resultGrant = baseGrant*1.15
+                showResultGrant(resultGrant)
+            } else {
+                if (averageGrade >= 5.0 && marker == false) {
+                    showResultGrant(baseGrant)
+                } else {
+                    println("Студент не получит стипендию")
+                }
+            }
+        }
+    }
+
+
+
+}
+
+fun showResultGrant(resultGrant: Double) {
+    println("Студент получит: $resultGrant")
 }
