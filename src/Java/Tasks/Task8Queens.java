@@ -1,11 +1,20 @@
-package Java;
+package Java.Tasks;
 
+//
 
 public class Task8Queens {
     String[][] table = new String[8][8];
     final int requiredQueens = 8;
-    int resultingQueens = 8;
+    int resultingQueensWithoutThreat = 8;
     boolean bumpedIntoFigure = false;
+    int figuresPositionsCounter = 0;
+    final int maxFiguresPositionsCounter = 77777777;
+    int parsedCounter;
+    int position;
+
+    int optionCounter = 0;
+
+    String[] arrayNumbersOfAnswers = new String[92];
 
     public void prepareTable() {
         for(int i = 0; i < table.length; i++) {
@@ -13,26 +22,63 @@ public class Task8Queens {
                 table[i][j] = "0";
             }
         }
+        figurePlacement();
     }
 
     public void searchSolution() {
-        figurePlacement();
         do{
+            figureMove();
             checkTable();
-
-            if (resultingQueens<8) {
-                figureMove();
+            if (resultingQueensWithoutThreat==8) {
+                optionCounter++;
+                System.out.println("Вариант расположения фигур: " + optionCounter);
+                System.out.println();
+                showTable();
+                figuresPositionsCounterShow();
+                figuresCountWithoutThreat();
+                figuresPositionsCounterAddToArray(optionCounter);
             }
-        } while (resultingQueens!=requiredQueens);
+            resultingQueensWithoutThreat=8;
+        }while (figuresPositionsCounter!=maxFiguresPositionsCounter);
 
-        showTable();
+        System.out.println();
 
-        figuresCountWithoutThreat();
+        for(int i = 0; i<optionCounter; i++) {
+            System.out.println(arrayNumbersOfAnswers[i]);
+        }
+
     }
 
     private void figureMove() {
+        int j = 0;
+        if (figuresPositionsCounter<=maxFiguresPositionsCounter) {
+            figuresPositionsCounter++;
+            parsedCounter = figuresPositionsCounter;
+            do{
+                position = parsedCounter%10;
+                parsedCounter = parsedCounter/10;
+                if(position>7) {
+                    continue;
+                }
+                figureReplace(position, j);
+                j++;
+            } while (parsedCounter>0);
+        }
+    }
+
+    private void figureReplace(int i, int j) {
+        table[i][j] = "F";
+        for(int k = 0; k < table.length; k++) {
+            if (k!=i) {
+                table[k][j] = "0";
+            }
+        }
 
     }
+
+    //написать два метода сдвига и генерацией всех возможных перестановок
+    //row - номер строки на доске
+    //
 
     private void checkTable() {
         for(int i = 0; i < table.length; i++) {
@@ -45,23 +91,33 @@ public class Task8Queens {
     }
 
     private void figuresCountWithoutThreat() {
-        System.out.println("Кол-во фигур без угрозы: " + resultingQueens);
+        System.out.println("Кол-во фигур без угроз: " + resultingQueensWithoutThreat);
+        System.out.println("_________________________________________________________________");
         System.out.println();
+    }
+
+    private void figuresPositionsCounterShow() {
+        String figuresPositionsCounterString = String.valueOf(figuresPositionsCounter);
+        figuresPositionsCounterString = new StringBuilder(figuresPositionsCounterString).reverse().toString();
+        if (figuresPositionsCounterString.length()<8){
+            figuresPositionsCounterString = figuresPositionsCounterString+"0";
+        }
+        System.out.println("Расположение фигур по одномерному массиву: " + figuresPositionsCounterString);
+        System.out.println();
+    }
+
+    private void figuresPositionsCounterAddToArray(int optionCounter) {
+        String figuresPositionsCounterString = String.valueOf(figuresPositionsCounter);
+        figuresPositionsCounterString = new StringBuilder(figuresPositionsCounterString).reverse().toString();
+        if (figuresPositionsCounterString.length()<8){
+            figuresPositionsCounterString = figuresPositionsCounterString+"0";
+        }
+        arrayNumbersOfAnswers[optionCounter-1] = figuresPositionsCounterString;
     }
 
     private void figurePlacement() {
         for(int i = 0; i < table.length; i++) {
-            addFigure(i, 0);
-        }
-    }
-
-
-
-    private void refreshTable() {
-        for(int i = 0; i < table.length; i++) {
-            for(int j=0; j < table[i].length; j++){
-                table[i][j]="0";
-            }
+            addFigure(0, i);
         }
     }
 
@@ -80,7 +136,7 @@ public class Task8Queens {
         checkLeftDownDiagonalCells(initialLine, initialColumn);
         checkRightDownDiagonalCells(initialLine, initialColumn);
         if (bumpedIntoFigure) {
-            resultingQueens--;
+            resultingQueensWithoutThreat--;
         }
         bumpedIntoFigure = false;
     }

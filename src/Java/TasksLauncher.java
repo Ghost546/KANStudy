@@ -1,5 +1,7 @@
 package Java;
 
+import Java.Tasks.Task8Queens;
+
 public class TasksLauncher {
 
     public void start() {
