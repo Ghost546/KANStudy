@@ -3,6 +3,11 @@ package Kotlin
 import javax.swing.text.Position
 
 fun main() {
+    val taskLauncher = TaskLauncher()
+    taskLauncher.start()
+}
+
+fun displayUsers() {
     displayUser("Tom", 23, "Manager")
     displayUser("Alice", 21)
     displayUser("Kate")

@@ -1,10 +1,17 @@
 package Kotlin
 
 import Kotlin.Tasks.Practice1Task3LMP
+import Kotlin.Tasks.TaskSudoku
 
 class TaskLauncher {
     fun start() {
-        launchTask3Practice1LMP()
+        launchTaskSudoku()
+    }
+
+    private fun launchTaskSudoku() {
+        val task = TaskSudoku()
+        task.prepareTable()
+        task.showTable()
     }
 
     private fun launchTask3Practice1LMP() {
